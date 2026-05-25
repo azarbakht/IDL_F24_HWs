@@ -47,7 +47,7 @@ class Tanh:
         return (np.exp(var) - np.exp(-var)) / (np.exp(var) + np.exp(-var))
 
     def forward(self, Z):
-        self.A = self.calculate(Z)
+        self.A = np.tanh(Z)
         return self.A
 
     def backward(self, dLdA):
