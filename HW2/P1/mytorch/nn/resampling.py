@@ -16,12 +16,12 @@ class Upsample1d:
         """
         # implement Z
 
-        N, C, Win = A.shape
-        Wout = self.upsampling_factor * (Win - 1) + 1
-        Z = np.zeros((N, C, Wout))
+        # 1. initialize empty array of size input width
+        # 2. expand the initialized array by upsampling factor (np.repeat)
+        # 3. use np.insert to insert 0 at the desired indices in expanded array
 
-        for i in range(Win):
-            Z[:, :, i * self.upsampling_factor] = A[:, :, i]
+
+        Z = 
 
         return Z
 
@@ -32,12 +32,15 @@ class Upsample1d:
         Return:
             dLdA (np.array): (batch_size, in_channels, input_width)
         """
-        N, C, Wout = dLdZ.shape
-        Win = (Wout - 1) // self.upsampling_factor + 1
-        dLdA = np.zeros((N, C, Win))
+        
+        # use slicing to only select the desired elements from the expanded array (dLdZ)
 
-        for i in range(Win):
-            dLdA[:, :, i] = dLdZ[:, :, i * self.upsampling_factor]
+
+        ind = None # set up an array that contains the indices of the desired elements
+        # (starting from 0, with step size of upsampling factor)
+
+        dLdA = dLdZ[:, :, ind]
+
 
         return dLdA
 
@@ -48,23 +51,15 @@ class Downsample1d:
         self.downsampling_factor = downsampling_factor
 
     def forward(self, A):
-        N, C, self.Win = A.shape
-        Wout = math.ceil(self.Win / self.downsampling_factor)
-        Z = np.zeros((N, C, Wout))
-
-        for i in range(Wout):
-            if i * self.downsampling_factor < self.Win:
-                Z[:, :, i] = A[:, :, i * self.downsampling_factor]
+        
+        Z = 
 
         return Z
 
     def backward(self, dLdZ):
-        N, C, Wout = dLdZ.shape
-        dLdA = np.zeros((N, C, self.Win))
+        
+        dLdA = 
 
-        for i in range(Wout):
-            if i * self.downsampling_factor < self.Win:
-                dLdA[:, :, i * self.downsampling_factor] = dLdZ[:, :, i]
 
         return dLdA
 
@@ -81,19 +76,12 @@ class Upsample2d:
         Return:
             Z (np.array): (batch_size, in_channels, output_height, output_width)
         """
-        N, C, Hin, Win = A.shape
-        Hout = self.upsampling_factor * (Hin - 1) + 1
-        Wout = self.upsampling_factor * (Win - 1) + 1
+        
+        Z = 
 
-        Z = np.zeros((N, C, Hout, Wout))
-
-        for i in range(Hin):
-            for j in range(Win):
-                Z[:, :, i * self.upsampling_factor, j * self.upsampling_factor] = A[
-                    :, :, i, j
-                ]
 
         return Z
+
 
     def backward(self, dLdZ):
         """
@@ -102,17 +90,9 @@ class Upsample2d:
         Return:
             dLdA (np.array): (batch_size, in_channels, input_height, input_width)
         """
-        N, C, Hout, Wout = dLdZ.shape
-        Hin = (Hout - 1) // self.upsampling_factor + 1
-        Win = (Wout - 1) // self.upsampling_factor + 1
 
-        dLdA = np.zeros((N, C, Hin, Win))
+        dLdA = 
 
-        for i in range(Hin):
-            for j in range(Win):
-                dLdA[:, :, i, j] = dLdZ[
-                    :, :, i * self.upsampling_factor, j * self.upsampling_factor
-                ]
 
         return dLdA
 
@@ -129,23 +109,11 @@ class Downsample2d:
         Return:
             Z (np.array): (batch_size, in_channels, output_height, output_width)
         """
-        N, C, self.Hin, self.Win = A.shape
-        Hout = math.ceil(self.Hin / self.downsampling_factor)
-        Wout = math.ceil(self.Win / self.downsampling_factor)
 
-        Z = np.zeros((N, C, Hout, Wout))
-
-        for i in range(Hout):
-            for j in range(Wout):
-                if (
-                    i * self.downsampling_factor < self.Hin
-                    and j * self.downsampling_factor < self.Win
-                ):
-                    Z[:, :, i, j] = A[
-                        :, :, i * self.downsampling_factor, j * self.downsampling_factor
-                    ]
+        Z = 
 
         return Z
+
 
     def backward(self, dLdZ):
         """
@@ -154,14 +122,9 @@ class Downsample2d:
         Return:
             dLdA (np.array): (batch_size, in_channels, input_height, input_width)
         """
-        N, C, Hout, Wout = dLdZ.shape
 
-        dLdA = np.zeros((N, C, self.Hin, self.Win))
+        dLdA = 
 
-        for i in range(Hout):
-            for j in range(Wout):
-                dLdA[
-                    :, :, i * self.downsampling_factor, j * self.downsampling_factor
-                ] = dLdZ[:, :, i, j]
 
         return dLdA
+
