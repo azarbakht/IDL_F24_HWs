@@ -18,15 +18,9 @@ class ConvTranspose1d:
         self.upsampling_factor = upsampling_factor
 
         # Initialize Conv1d stride 1 and upsample1d isntance
-        self.upsample1d = Upsample1d(upsampling_factor)
-        self.conv1d_stride1 = Conv1d(
-            in_channels,
-            out_channels,
-            kernel_size,
-            stride=1,
-            weight_init_fn=weight_init_fn,
-            bias_init_fn=bias_init_fn,
-        )
+        self.upsample1d = # TODO
+        self.conv1d_stride1 = # TODO
+
 
     def forward(self, A):
         """
@@ -35,13 +29,16 @@ class ConvTranspose1d:
         Return:
             Z (np.array): (batch_size, out_channels, output_size)
         """
-        # upsample
-        A_upsampled = self.upsample1d.forward(A)
+        
+        Z = # TODO (<= 2 lines of code)
 
-        # Call Conv1d_stride1()
-        Z = self.conv1d_stride1.forward(A_upsampled)
+        # 1. Upsampling1d forward
+
+        # 2. Conv1d_stride1 forward
+        
 
         return Z
+
 
     def backward(self, dLdZ):
         """
@@ -50,9 +47,13 @@ class ConvTranspose1d:
         Return:
             dLdA (np.array): (batch_size, in_channels, input_size)
         """
-        # Call backward in the correct order
-        delta_out = self.conv1d_stride1.backward(dLdZ)
-        dLdA = self.upsample1d.backward(delta_out)
+        
+        dLdA = # TODO (<= 2 lines of code)
+
+        # 1. Conv1d_stride1 backward
+
+        # 2. Upsampling1d backward
+        
 
         return dLdA
 
@@ -71,15 +72,8 @@ class ConvTranspose2d:
         self.upsampling_factor = upsampling_factor
 
         # Initialize Conv2d() isntance
-        self.conv2d_stride1 = Conv2d(
-            in_channels,
-            out_channels,
-            kernel_size,
-            stride=1,
-            weight_init_fn=weight_init_fn,
-            bias_init_fn=bias_init_fn,
-        )
-        self.upsample2d = Upsample2d(upsampling_factor)
+        self.conv2d_stride1 = # TODO
+        self.upsample2d = # TODO
 
     def forward(self, A):
         """
@@ -88,11 +82,12 @@ class ConvTranspose2d:
         Return:
             Z (np.array): (batch_size, out_channels, output_size)
         """
-        # upsample
-        A_upsampled = self.upsample2d.forward(A)
+        
+        Z = # TODO (<= 2 lines of code)
 
-        # Call Conv2d_stride1()
-        Z = self.conv2d_stride1.forward(A_upsampled)
+        # 1. Upsampling2d forward
+
+        # 2. Conv2d_stride1 forward
 
         return Z
 
@@ -103,9 +98,13 @@ class ConvTranspose2d:
         Return:
             dLdA (np.array): (batch_size, in_channels, input_size)
         """
-        # Call backward in correct order
-        delta_out = self.conv2d_stride1.backward(dLdZ)
+        
 
-        dLdA = self.upsample2d.backward(delta_out)
+        dLdA = # TODO (<= 2 lines of code)
+
+        # 1. Conv2d_stride1 backward
+
+        # 2. Upsampling2d backward
+        
 
         return dLdA
